@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:listinha/src/home/widgets/task_card.dart';
+import 'package:listinha/src/shared/services/realm/models/task_model.dart';
+import 'package:realm/realm.dart';
 
 import '../shared/widgets/user_image_button.dart';
 import 'widgets/custom_drawer.dart';
@@ -25,8 +28,49 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       body: Center(
-        child: Column(
+        child: Stack(
           children: [
+            ListView.separated(
+              padding: const EdgeInsets.only(
+                top: 70,
+                left: 30,
+                right: 30,
+                bottom: 200,
+              ),
+              itemCount: 100,
+              itemBuilder: (_, index) {
+                final board = TaskBoard(
+                  Uuid.v4(),
+                  'Nova lista de tarefas 1 ',
+                  tasks: [
+                    Task(Uuid.v4(), '', completed: true),
+                    Task(Uuid.v4(), '', completed: true),
+                    Task(
+                      Uuid.v4(),
+                      '',
+                      completed: true,
+                    ),
+                    Task(
+                      Uuid.v4(),
+                      '',
+                      completed: true,
+                    ),
+                  ],
+                );
+                return TaskCard(
+                  board: board,
+                  height: 140,
+                );
+              },
+              separatorBuilder: (context, index) {
+                return const SizedBox(
+                  height: 10,
+                );
+              },
+            ),
+            const Align(
+              alignment: Alignment.topCenter,
+            ),
             Padding(
               padding: const EdgeInsets.all(8),
               child: SegmentedButton<int>(
